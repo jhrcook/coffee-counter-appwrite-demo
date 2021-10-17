@@ -53,7 +53,7 @@ class CoffeeBag(BaseModel):
 
     def __init__(self, **data) -> None:
         for k in ["start_date", "end_date", "roast"]:
-            if data[k] == "":
+            if data.get(k, None) == "":
                 data[k] = None
         super().__init__(**data)
 

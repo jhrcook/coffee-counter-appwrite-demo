@@ -5,6 +5,7 @@ from appwrite.client import Client
 from appwrite.services.database import Database
 
 from config import get_config
+from models import CoffeeBag
 
 client = Client()
 
@@ -49,3 +50,11 @@ def get_coffee_bag(id: str) -> dict[str, Any]:
     return db.get_document(
         collection_id=_get_coffee_bag_collections_id(), document_id=id
     )
+
+
+def add_coffee_bag(coffee_bag: CoffeeBag) -> dict[str, Any]:
+    db = _get_coffee_bag_db()
+    res = db.create_document(
+        collection_id=_get_coffee_bag_collections_id(), data=coffee_bag.json()
+    )
+    return res

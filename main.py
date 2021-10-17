@@ -68,7 +68,8 @@ def coffee_cup(cup_id: str) -> CoffeeCupDocument:
 
 @app.put("/bag")
 def new_coffee_bag(coffee_bag: CoffeeBag) -> CoffeeBagDocument:
-    pass
+    res = ab.add_coffee_bag(coffee_bag)
+    return CoffeeBagDocument(**res)
 
 
 @app.put("/cup")
