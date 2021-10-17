@@ -1,0 +1,7 @@
+appwrite==0.5.*
+fastapi==0.70.*
+pydantic==1.8.*
+requests==2.26.*
+starlette==0.16.*
+typing-extensions==3.10.*
+uvicorn==0.15.*
