@@ -1,8 +1,9 @@
 import re
 from datetime import date, datetime
 from enum import Enum
+from typing import Optional
 
-from pydantic import BaseModel, PositiveFloat
+from pydantic import BaseModel, PositiveFloat, validator
 
 
 class AppwriteDocumentPermissions(BaseModel):
@@ -45,10 +46,16 @@ class CoffeeBag(BaseModel):
     brand: str
     name: str
     mass: PositiveFloat
-    start_date: date
-    end_date: date
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
     active: bool
-    roast: CoffeeBeanRoast
+    roast: Optional[CoffeeBeanRoast] = None
+
+    def __init__(self, **data) -> None:
+        for k in ["start_date", "end_date", "roast"]:
+            if data[k] == "":
+                data[k] = None
+        super().__init__(**data)
 
 
 class CoffeeBagDocument(CoffeeBag, AppwriteDocument):

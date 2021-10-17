@@ -26,12 +26,16 @@ def _get_coffee_bag_collections_id() -> str:
     return _config.appwrite.collections.coffee_bag_collection_id
 
 
-def get_coffee_bags(active: Optional[bool] = None) -> dict[str, Any]:
+def get_coffee_bags(
+    brand: Optional[str], active: Optional[bool] = None
+) -> dict[str, Any]:
     db = _get_coffee_bag_db()
 
     filters = []
+    if brand is not None:
+        filters.append(f"brand={brand}")
     if active is not None:
-        filters.append(f"active={int(active)}".lower())
+        filters.append(f"active={int(active)}")
 
     print(filters)
     coffee_bags_dict = db.list_documents(
