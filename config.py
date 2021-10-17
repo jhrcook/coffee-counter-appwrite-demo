@@ -10,6 +10,7 @@ _config_path: Final[Path] = Path("config.yml")
 class AppwriteCollectionsConfig(BaseModel):
 
     coffee_bag_collection_id: str
+    coffee_cup_collection_id: str
 
 
 class AppwriteConfig(BaseModel):

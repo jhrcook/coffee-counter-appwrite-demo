@@ -3,3 +3,4 @@ appwrite:
   api_endpoint: "http://localhost/v1"
   collections:
     coffee_bag_collection_id: "616b3659ac51c"
+    coffee_cup_collection_id: "616c27d8c4aaa"

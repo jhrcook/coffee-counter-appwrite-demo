@@ -3,7 +3,7 @@ from datetime import date, datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, PositiveFloat, validator
+from pydantic import BaseModel, PositiveFloat
 
 
 class AppwriteDocumentPermissions(BaseModel):

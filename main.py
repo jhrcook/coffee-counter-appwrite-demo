@@ -1,6 +1,5 @@
 from datetime import date, datetime
-from pprint import pprint
-from typing import Callable, Optional
+from typing import Optional
 
 from fastapi import FastAPI
 
@@ -29,11 +28,10 @@ def coffee_bags(
     start: Optional[date] = None,
     end: Optional[date] = None,
     brand: Optional[str] = None,
+    roast: Optional[CoffeeBeanRoast] = None,
     active: Optional[bool] = None,
 ) -> list[CoffeeBagDocument]:
-    coffee_bags_dict = ab.get_coffee_bags(brand=brand, active=active)
-    pprint(coffee_bags_dict)
-    coffee_bags = [CoffeeBagDocument(**info) for info in coffee_bags_dict["documents"]]
+    coffee_bags = ab.get_coffee_bags(brand=brand, active=active, roast=roast)
 
     if start is not None:
         coffee_bags = list(
@@ -51,27 +49,31 @@ def coffee_bags(
 
 @app.get("/bags/{bag_id}")
 def coffee_bag(bag_id: str) -> CoffeeBagDocument:
-    return CoffeeBagDocument(**ab.get_coffee_bag(bag_id))
+    return ab.get_coffee_bag(bag_id)
 
 
 @app.get("/cups")
 def coffee_cups(
     start: Optional[datetime] = None, coffee_bag_id: Optional[BagID] = None
-):
-    pass
+) -> list[CoffeeCupDocument]:
+    cups = ab.get_coffee_cups(bag_id=coffee_bag_id)
+
+    if start is not None:
+        cups = list(filter(lambda c: start <= c.datetime, cups))
+
+    return cups
 
 
 @app.get("/cups/{cup_id}")
 def coffee_cup(cup_id: str) -> CoffeeCupDocument:
-    pass
+    return ab.get_coffee_cup(id=cup_id)
 
 
 @app.put("/bag")
 def new_coffee_bag(coffee_bag: CoffeeBag) -> CoffeeBagDocument:
-    res = ab.add_coffee_bag(coffee_bag)
-    return CoffeeBagDocument(**res)
+    return ab.add_coffee_bag(coffee_bag)
 
 
 @app.put("/cup")
 def new_cup(coffee_cup: CoffeeCup) -> CoffeeCupDocument:
-    pass
+    return ab.add_coffee_cup(coffee_cup=coffee_cup)
